@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Array/Array and Loops.iml" filepath="$PROJECT_DIR$/Array/Array and Loops.iml" />
-      <module fileurl="file://$PROJECT_DIR$/KotlinVariables/KotlinVariables.iml" filepath="$PROJECT_DIR$/KotlinVariables/KotlinVariables.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Basics/Arrays/Arrays.iml" filepath="$PROJECT_DIR$/Basics/Arrays/Arrays.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Kotlin_Programming.iml" filepath="$PROJECT_DIR$/.idea/Kotlin_Programming.iml" />
-      <module fileurl="file://$PROJECT_DIR$/SampleProgram/SampleProgram.iml" filepath="$PROJECT_DIR$/SampleProgram/SampleProgram.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Basics/Loops/Loops.iml" filepath="$PROJECT_DIR$/Basics/Loops/Loops.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Basics/Variables/Variables.iml" filepath="$PROJECT_DIR$/Basics/Variables/Variables.iml" />
     </modules>
   </component>
 </project>
