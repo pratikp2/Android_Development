@@ -21,7 +21,8 @@ class MainActivity : AppCompatActivity() {
         buttonRegister = findViewById(R.id.register)
 
         buttonLogin.setOnClickListener {
-            val intent = Intent(this, Login::class.java)
+            //val intent = Intent(this, Login::class.java)
+            val intent = Intent(this, DatabaseEntry::class.java)
             startActivity(intent) // Start the SecondActivity
         }
 

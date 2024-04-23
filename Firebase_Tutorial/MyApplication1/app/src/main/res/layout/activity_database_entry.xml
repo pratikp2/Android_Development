@@ -13,15 +13,45 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Entry Successful">
+        android:text="@string/entry_successful">
     </TextView>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:id="@+id/Database_Entry_spinner1"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:id="@+id/Database_Entry_spinner2"
+        android:layout_marginBottom="8dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:id="@+id/Database_Entry_Add_to_db"
+        android:text="@string/save_to_db"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:id="@+id/Database_Entry_fetch_value"
+        android:text="@string/read_db"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:id="@+id/Database_Entry_logout"
-        android:text="Logout"
-        ></Button>
+        android:text="@string/logout"
+        />
 
 </LinearLayout>

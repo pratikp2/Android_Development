@@ -46,29 +46,16 @@ class Register : AppCompatActivity() {
                 auth.createUserWithEmailAndPassword(textEmail.text.toString(), textPassphrase.text.toString())
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success")
-                            //val user = auth.currentUser
                             val intent = Intent(this, DatabaseEntry::class.java)
                             startActivity(intent)
                         } else {
-                            // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                            Toast.makeText(
-                                baseContext,
-                                "Authentication failed.Retry",
-                                Toast.LENGTH_SHORT,
-                            ).show()
-                            //updateUI(null)
+                            Toast.makeText(baseContext, "Authentication failed.Retry", Toast.LENGTH_SHORT,).show()
                         }
                     }
             } else {
-                Toast.makeText(
-                    baseContext,
-                    "Passphrase Do not Match. Retry !!",
-                    Toast.LENGTH_SHORT,
-                ).show()
-                //updateUI(null)
+                Toast.makeText(baseContext, "Passphrase Do not Match. Retry !!", Toast.LENGTH_SHORT,).show()
             }
         }
 

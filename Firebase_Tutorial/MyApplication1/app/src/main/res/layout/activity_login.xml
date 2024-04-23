@@ -14,32 +14,31 @@
         android:layout_height="wrap_content"
         android:id="@+id/login_page_email"
         android:layout_margin="20dp"
-        android:hint="Enter Email Id"
-        ></EditText>
+        android:hint="@string/enter_email_id"
+        />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/login_page_passphrase"
         android:layout_margin="20dp"
-        android:hint="Enter Password"
-        ></EditText>
+        android:hint="@string/enter_password"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:id="@+id/login_page_login"
-
-        android:text="Login"
-        ></Button>
+        android:text="@string/login"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:id="@+id/login_page_back"
-        android:text="Back"
-        ></Button>
+        android:text="@string/back"
+        />
 
 </LinearLayout>

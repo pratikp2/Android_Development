@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">My Application</string>
+    <string name="save_to_db">Save To DB</string>
+    <string name="entry_successful">Entry Successful</string>
+    <string name="logout">Logout</string>
+    <string name="enter_email_id">Enter Email Id</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="login">Login</string>
+    <string name="back">Back</string>
+    <string name="or">OR</string>
+    <string name="register">Register</string>
+    <string name="read_db">Read DB</string>
 </resources>
