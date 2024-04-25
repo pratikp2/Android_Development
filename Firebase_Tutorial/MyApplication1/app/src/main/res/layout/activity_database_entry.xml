@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:id="@+id/Database_Entry_Add_to_db"
-        android:text="@string/save_to_db"
+        android:text="@string/save_to_realtime_database"
         />
 
     <Button
@@ -43,7 +43,23 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:id="@+id/Database_Entry_fetch_value"
-        android:text="@string/read_db"
+        android:text="@string/read_from_realtime_database"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:id="@+id/Database_Entry_write_cf_value"
+        android:text="@string/save_to_cloud_firestore"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:id="@+id/Database_Entry_fetch_cf_value"
+        android:text="@string/read_from_cloud_firestore"
         />
 
     <Button

@@ -10,4 +10,11 @@
     <string name="or">OR</string>
     <string name="register">Register</string>
     <string name="read_db">Read DB</string>
+    <string name="save_to_cloud_firestore">Save To Cloud FireStore</string>
+    <string name="save_to_realtime_database">Save To RealTime Database</string>
+    <string name="read_from_realtime_database">Read from Realtime Database</string>
+    <string name="read_from_cloud_firestore">Read from Cloud Firestore</string>
+    <string name="enter_your_query_here">Enter your query here</string>
+    <string name="ask">Ask</string>
+    <string name="waiting">Waiting...</string>
 </resources>

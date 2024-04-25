@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var TAG : String
     private lateinit var buttonLogin : Button
     private lateinit var buttonRegister : Button
 
@@ -19,10 +20,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         buttonLogin = findViewById(R.id.login)
         buttonRegister = findViewById(R.id.register)
+        TAG = "Main_Activity"
 
         buttonLogin.setOnClickListener {
             //val intent = Intent(this, Login::class.java)
-            val intent = Intent(this, DatabaseEntry::class.java)
+            val intent = Intent(this, LlmActivity::class.java)
             startActivity(intent) // Start the SecondActivity
         }
 
