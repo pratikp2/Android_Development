@@ -17,4 +17,6 @@
     <string name="enter_your_query_here">Enter your query here</string>
     <string name="ask">Ask</string>
     <string name="waiting">Waiting...</string>
+    <string name="or_log_in_with_email">OR Sign in using Email id</string>
+    <string name="default_web_client_id">997212419478-973m6touh1f73c2cu9qj15f25cvnf1vg.apps.googleusercontent.com</string>
 </resources>

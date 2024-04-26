@@ -11,9 +11,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.Firebase
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.auth
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.database
@@ -22,6 +26,7 @@ import com.google.firebase.firestore.firestore
 class DatabaseEntry : AppCompatActivity() {
 
     private lateinit var TAG : String
+    private val db = Firebase.firestore
     private lateinit var buttonLogout : Button
     private lateinit var saveToDB : Button
     private lateinit var fetchFromDB : Button
@@ -37,7 +42,15 @@ class DatabaseEntry : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_database_entry)
+        setElementIDAndListeners()
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+    }
 
+    private fun setElementIDAndListeners(){
         TAG = "DatabaseEntry"
         buttonLogout = findViewById(R.id.Database_Entry_logout)
         saveToDB = findViewById(R.id.Database_Entry_Add_to_db)
@@ -47,7 +60,6 @@ class DatabaseEntry : AppCompatActivity() {
         spinner1 = findViewById(R.id.Database_Entry_spinner1)
         spinner2 = findViewById(R.id.Database_Entry_spinner2)
         database = Firebase.database.reference
-        val db = Firebase.firestore
         user = Firebase.auth.currentUser?.email.toString()
 
         val items1 = listOf("Item_1", "Item_2", "Item_3", "Item_4")
@@ -62,10 +74,7 @@ class DatabaseEntry : AppCompatActivity() {
         spinner2.adapter = adapter2
 
         buttonLogout.setOnClickListener {
-            FirebaseAuth.getInstance().signOut()
-            Toast.makeText(baseContext, "Log out Successful", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, Login::class.java)
-            startActivity(intent)
+            signOut()
         }
 
         saveToDB.setOnClickListener {
@@ -153,13 +162,46 @@ class DatabaseEntry : AppCompatActivity() {
                 }
                 .addOnFailureListener { exception -> Log.d(TAG, "get failed with ", exception) }
         }
+    }
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+    private fun signOut(){
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        currentUser?.let { user ->
+            user.providerData.forEach { userInfo ->
+                val providerId = userInfo.providerId
+                if (providerId == GoogleAuthProvider.PROVIDER_ID) {
+                    signOutGoogle()
+                } else if (providerId == EmailAuthProvider.PROVIDER_ID) {
+                    signOutFirebase()
+                }
+            }
+        }
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun signOutGoogle() {
+        FirebaseAuth.getInstance().signOut()
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        mGoogleSignInClient.signOut().addOnCompleteListener(this) {
+            val user = Firebase.auth.currentUser
+            Toast.makeText(this, "${user?.displayName} signed out ", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
     }
 
-
+    private fun signOutFirebase() {
+        FirebaseAuth.getInstance().signOut()
+        Toast.makeText(baseContext, "Log out Successful", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, Login::class.java)
+        startActivity(intent)
+    }
 }
