@@ -17,6 +17,9 @@ firebaseFirestore = "24.11.1"
 okhttp = "5.0.0-alpha.14"
 gson = "2.10.1"
 playServicesAuth = "21.1.0"
+firebaseCrashlytics = "18.6.4"
+gradle = "8.1.0"
+firebaseCrashlyticsGradle = "2.9.9"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,6 +38,9 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
+gradle = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle" }
+firebase-crashlytics-gradle = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebaseCrashlyticsGradle" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

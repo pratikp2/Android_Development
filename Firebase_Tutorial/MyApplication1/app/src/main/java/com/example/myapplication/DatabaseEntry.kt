@@ -17,6 +17,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.auth
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -25,17 +26,18 @@ import com.google.firebase.firestore.firestore
 
 class DatabaseEntry : AppCompatActivity() {
 
-    private lateinit var TAG : String
     private val db = Firebase.firestore
+    private val user : String = "USER_" + (1..16).map {('0'..'9').random() }.joinToString("")
     private lateinit var buttonLogout : Button
     private lateinit var saveToDB : Button
     private lateinit var fetchFromDB : Button
     private lateinit var saveToCfDB : Button
     private lateinit var fetchFromCfDB : Button
+    private lateinit var crashTest : Button
     private lateinit var spinner1 : Spinner
     private lateinit var spinner2 : Spinner
     private lateinit var database: DatabaseReference
-    private lateinit var user : String
+    private lateinit var currentUser : FirebaseUser
     private var url = "https://sample-project-a986b-default-rtdb.europe-west1.firebasedatabase.app/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +53,7 @@ class DatabaseEntry : AppCompatActivity() {
     }
 
     private fun setElementIDAndListeners(){
-        TAG = "DatabaseEntry"
+        crashTest = findViewById(R.id.DummyCrash)
         buttonLogout = findViewById(R.id.Database_Entry_logout)
         saveToDB = findViewById(R.id.Database_Entry_Add_to_db)
         fetchFromDB = findViewById(R.id.Database_Entry_fetch_value)
@@ -60,7 +62,6 @@ class DatabaseEntry : AppCompatActivity() {
         spinner1 = findViewById(R.id.Database_Entry_spinner1)
         spinner2 = findViewById(R.id.Database_Entry_spinner2)
         database = Firebase.database.reference
-        user = Firebase.auth.currentUser?.email.toString()
 
         val items1 = listOf("Item_1", "Item_2", "Item_3", "Item_4")
         val items2 = listOf("1", "2", "3", "4")
@@ -77,6 +78,10 @@ class DatabaseEntry : AppCompatActivity() {
             signOut()
         }
 
+        crashTest.setOnClickListener {
+            throw RuntimeException("Test Crash")
+        }
+
         saveToDB.setOnClickListener {
             FirebaseDatabase.
             getInstance(url).
@@ -91,9 +96,9 @@ class DatabaseEntry : AppCompatActivity() {
             getInstance(url).
             getReference().
             child(user).
-            child("Item_2").get().
+            child(spinner1.selectedItem.toString()).get().
             addOnSuccessListener {
-                Toast.makeText(baseContext, "Got value ${it.value}", Toast.LENGTH_SHORT,).show()
+                Toast.makeText(baseContext, "Got value ${it.value}", Toast.LENGTH_SHORT).show()
             }.addOnFailureListener{
                 Log.e("firebase", "Error getting data", it)
             }
@@ -108,7 +113,7 @@ class DatabaseEntry : AppCompatActivity() {
                 "country" to "USA",
                 "capital" to false,
                 "population" to 860000,
-                "regions" to listOf("west_coast", "norcal"),
+                "regions" to listOf("west_coast", "normal"),
             )
             cities.document("SF").set(data1)
 
@@ -118,7 +123,7 @@ class DatabaseEntry : AppCompatActivity() {
                 "country" to "USA",
                 "capital" to false,
                 "population" to 3900000,
-                "regions" to listOf("west_coast", "socal"),
+                "regions" to listOf("west_coast", "social"),
             )
             cities.document("LA").set(data2)
 
@@ -138,7 +143,7 @@ class DatabaseEntry : AppCompatActivity() {
                 "country" to "Japan",
                 "capital" to true,
                 "population" to 9000000,
-                "regions" to listOf("kanto", "honshu"),
+                "regions" to listOf("Canto", "honshu"),
             )
             cities.document("TOK").set(data4)
 
@@ -154,24 +159,26 @@ class DatabaseEntry : AppCompatActivity() {
         }
 
         fetchFromCfDB.setOnClickListener {
+            var fetchedData : String
             val docRef = db.collection("cities").document("SF")
             docRef.get()
                 .addOnSuccessListener { document ->
-                    if (document != null) { Log.d(TAG, "DocumentSnapshot data: ${document.data}") }
-                    else { Log.d(TAG, "No such document") }
+                    fetchedData = document?.data?.toString() ?: "No such document"
+                    Toast.makeText(baseContext, "Got value $fetchedData", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "Got value $fetchedData")
                 }
                 .addOnFailureListener { exception -> Log.d(TAG, "get failed with ", exception) }
         }
     }
 
     private fun signOut(){
-        val currentUser = FirebaseAuth.getInstance().currentUser
-        currentUser?.let { user ->
+        currentUser = FirebaseAuth.getInstance().currentUser!!
+        currentUser.let { user ->
             user.providerData.forEach { userInfo ->
                 val providerId = userInfo.providerId
                 if (providerId == GoogleAuthProvider.PROVIDER_ID) {
                     signOutGoogle()
-                } else if (providerId == EmailAuthProvider.PROVIDER_ID) {
+                } else if (providerId == "firebase") {
                     signOutFirebase()
                 }
             }
@@ -190,8 +197,7 @@ class DatabaseEntry : AppCompatActivity() {
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         mGoogleSignInClient.signOut().addOnCompleteListener(this) {
-            val user = Firebase.auth.currentUser
-            Toast.makeText(this, "${user?.displayName} signed out ", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "$user signed out ", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -203,5 +209,9 @@ class DatabaseEntry : AppCompatActivity() {
         Toast.makeText(baseContext, "Log out Successful", Toast.LENGTH_SHORT).show()
         val intent = Intent(this, Login::class.java)
         startActivity(intent)
+    }
+
+    companion object {
+        private const val TAG : String = "DatabaseEntry"
     }
 }
